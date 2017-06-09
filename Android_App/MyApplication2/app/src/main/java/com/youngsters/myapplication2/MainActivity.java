@@ -28,9 +28,13 @@ public class MainActivity extends AppCompatActivity {
 
     TextView lon;
     TextView lat;
+    TextView complete;
+    boolean wait;
 
     JSONArray stopsList;
     JSONArray stopDelaysList;
+
+    int nearestStop;
 
     double longitude;
     double latitude;
@@ -43,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
         stopsList = null;
         stopDelaysList = null;
 
+        complete = (TextView) findViewById(R.id.complete);
+
         longitude = -1;
         latitude = -1;
+
 
         Thread t = new Thread(new Runnable() {
             @Override
@@ -60,10 +67,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 //download stops finished
-
                 stopsList = stops.getStopsArray();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        configureGPS();
+                        complete.setText("gps");
+                    }
+                });
 
-                configureGPS();
 
                 while(longitude == -1 || latitude == -1){
                     try {
@@ -74,12 +85,26 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //gps position got
 
-                int nearestStop = -1;
+                wait = true;
+                nearestStop = -1;
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            nearestStop = getNearestStop(latitude, longitude, stopsList);
+                            complete.setText(nearestStop+"");
+                            wait = false;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-                try {
-                    nearestStop = getNearestStop(latitude, longitude, stopsList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                while(wait){
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
@@ -93,9 +118,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 //download stop delays completed
-
                 stopDelaysList = stopDelays.getDelays();
-
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            complete.setText(stopDelaysList.get(0).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
         t.start();
@@ -162,8 +194,8 @@ public class MainActivity extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                lat.setText(""+latitude);
-                lon.setText(""+longitude);
+                //lat.setText(""+latitude);
+                //lon.setText(""+longitude);
             }
 
             @Override
