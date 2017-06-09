@@ -1,4 +1,4 @@
- public static double distance(double latitiudeDevice, double latitiudeStop, double longtitiudeDevice,double longtitiudeStop)
+ public static double coordinatesToDistance(double latitiudeDevice, double latitiudeStop, double longtitiudeDevice,double longtitiudeStop)
     {
 
         final int RADIUS = 6371;
