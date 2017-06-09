@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             Location stop_location = new Location("stop");
             stop_location.setLatitude(latitiudeStop);
             stop_location.setLongitude(longitiudeStop);
-            double distanceToThisStop =device.distanceTo(stop_location)
+            double distanceToThisStop =device.distanceTo(stop_location);
             if (distanceToThisStop < maxWayToStop) {
                 maxWayToStop = distanceToThisStop;
                 closestStop = id;
