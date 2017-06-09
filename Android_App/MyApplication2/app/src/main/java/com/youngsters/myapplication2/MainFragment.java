@@ -18,10 +18,9 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
         
-        DownloadStops d = new DownloadStops();
-        d.execute();
+
 
         return view;
     }
