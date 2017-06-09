@@ -7,8 +7,6 @@
     android:background="@color/colorViolet">
     tools:context="com.youngsters.myapplication2.MainActivity">
 
-    <include layout="@layout/content_main"
-        android:layout_height="352dp"
-        android:id="@+id/include" />
+    <include layout="@layout/content_main"/>
 
 </android.support.design.widget.CoordinatorLayout>

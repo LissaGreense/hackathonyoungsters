@@ -29,10 +29,16 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+<<<<<<< HEAD
+        view = inflater.inflate(R.layout.fragment_main, container, false);
+        
+
+=======
         view = inflater.inflate(R.layout.activity_main, container, false);
 
         d = new DownloadStops();
         d.execute();
+>>>>>>> c71ab0b2ede197df881668d1a4b84b8e544b373d
 
         waiter = new Handler() {
             @Override
