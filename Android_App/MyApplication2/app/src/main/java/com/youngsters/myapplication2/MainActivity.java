@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getNearestStop(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
-        double maxWayToStop = 99999;
+        double maxWayToStop = 16;
         int closestStop = -1;
         Location device = new Location("device");
         device.setLatitude(latitiudeDevice);
@@ -182,8 +182,7 @@ public class MainActivity extends AppCompatActivity {
             Location stop_location = new Location("stop");
             stop_location.setLatitude(latitiudeStop);
             stop_location.setLongitude(longitiudeStop);
-            double distanceToThisStop =device.distanceTo(stop_location);
-            if(distanceToThisStop < 16)
+            double distanceToThisStop =device.distanceTo(stop_location)
             if (distanceToThisStop < maxWayToStop) {
                 maxWayToStop = distanceToThisStop;
                 closestStop = id;
