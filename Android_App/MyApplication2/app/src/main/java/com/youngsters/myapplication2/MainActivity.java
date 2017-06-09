@@ -26,31 +26,75 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
-    DownloadStops d;
     TextView lon;
     TextView lat;
+
+    JSONArray stopsList;
+    JSONArray stopDelaysList;
+
+    double longitude;
+    double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        d = new DownloadStops();
-        d.execute();
+        stopsList = null;
+        stopDelaysList = null;
 
-        DownloadStopDelays delays = new DownloadStopDelays(4);
-        //delays.execute();
+        longitude = -1;
+        latitude = -1;
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (d.getStatus() != AsyncTask.Status.FINISHED) {
+                DownloadStops stops = new DownloadStops();
+                stops.execute();
+
+                while (stops.getStatus() != AsyncTask.Status.FINISHED) {
                     try {
                         sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                //download stops finished
 
+                stopsList = stops.getStopsArray();
+
+                configureGPS();
+
+                while(longitude == -1 || latitude == -1){
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //gps position got
+
+                int nearestStop = -1;
+
+                try {
+                    nearestStop = getNearestStop(latitude, longitude, stopsList);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+                stopDelays.execute();
+
+                while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //download stop delays completed
+
+                stopDelaysList = stopDelays.getDelays();
 
             }
         });
@@ -116,8 +160,10 @@ public class MainActivity extends AppCompatActivity {
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                lat.setText(location.getLatitude() + "");
-                lon.setText(location.getLongitude() + "");
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                lat.setText(""+latitude);
+                lon.setText(""+longitude);
             }
 
             @Override

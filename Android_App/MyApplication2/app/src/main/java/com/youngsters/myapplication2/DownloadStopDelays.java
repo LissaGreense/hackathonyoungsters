@@ -19,7 +19,7 @@ import java.net.URL;
 public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
     String json = "";
-    JSONArray delays;
+    private JSONArray delays;
     private int id;
 
     DownloadStopDelays(int id){
@@ -69,5 +69,9 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONArray getDelays() {
+        return delays;
     }
 }

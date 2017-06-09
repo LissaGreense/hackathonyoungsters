@@ -14,8 +14,8 @@ import java.net.URL;
 
 public class DownloadStops extends AsyncTask<Void, Void, Void> {
 
-    String json = "";
-    JSONArray stopsArray;
+    private String json = "";
+    private JSONArray stopsArray;
 
 
     @Override
@@ -60,5 +60,9 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONArray getStopsArray() {
+        return stopsArray;
     }
 }
