@@ -11,3 +11,21 @@ public static double coordinatesToDistance(double latitiudeDevice, double latiti
         double distance = RADIUS * tempDistance * 1000;
         return Math.abs(distance);
     }
+public static int getNearestStop(double latitiudeDevice,double longtitiudeDevice,JSONArray stopsList) throws JSONException {
+        double maxWayToStop = 99999;
+        int closestStop = 0;
+        for(int i =0;i<stopsList.length();i++)
+        {
+            JSONObject stop = stopsList.getJSONObject(i);
+            int id = stop.getInt("stopId");
+            double latitiudeStop = stop.getDouble("stopLat");
+            double longitiudeStop = stop.getDouble("stopLon");
+            double distanceToThisStop = coordinatesToDistance(latitiudeDevice,latitiudeStop,longtitiudeDevice,longitiudeStop);
+            if(distanceToThisStop < maxWayToStop)
+            {
+                maxWayToStop = distanceToThisStop;
+                closestStop = id;
+            }
+        }
+        return closestStop;
+    }
