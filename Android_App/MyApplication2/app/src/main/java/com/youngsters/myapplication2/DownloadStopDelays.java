@@ -18,20 +18,12 @@ import java.net.URL;
 
 public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
-    private JSONArray Delays;
+    String json = "";
+    JSONArray delays;
     private int id;
-    private String json;
 
     DownloadStopDelays(int id){
-        super();
         this.id = id;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        Delays = null;
-        json = "";
     }
 
     @Override
@@ -45,6 +37,7 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
             URL url = new URL(address);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
+
 
             InputStream stream = connection.getInputStream();
 
@@ -72,13 +65,9 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(json);
-            Delays = jsonObject.getJSONArray("delay");
+            delays = jsonObject.getJSONArray("delay");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public JSONArray getDelays() {
-        return Delays;
     }
 }

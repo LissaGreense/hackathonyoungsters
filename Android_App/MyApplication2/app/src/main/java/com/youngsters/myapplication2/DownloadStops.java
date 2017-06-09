@@ -14,17 +14,9 @@ import java.net.URL;
 
 public class DownloadStops extends AsyncTask<Void, Void, Void> {
 
-    private JSONArray Stops;
-    private String json;
-    private boolean running;
+    String json = "";
+    JSONArray stopsArray;
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        Stops = null;
-        json = "";
-        running = true;
-    }
 
     @Override
     protected Void doInBackground(Void... params) {
@@ -33,22 +25,22 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
         HttpURLConnection connection;
         BufferedReader reader;
 
-            try {
-                URL url = new URL(address);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
+        try {
+            URL url = new URL(address);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
 
-                InputStream stream = connection.getInputStream();
 
-                reader = new BufferedReader(new InputStreamReader(stream));
+            InputStream stream = connection.getInputStream();
 
-                String line;
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            String line;
             while ((line =reader.readLine()) != null) {
                 json += line;
             }
 
             connection.disconnect();
-
 
 
         }catch( Exception e) {
@@ -64,19 +56,9 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(json);
-            Stops = jsonObject.getJSONObject("2017-06-15").getJSONArray("stops");
+            stopsArray = jsonObject.getJSONObject("2017-06-15").getJSONArray("stops");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        running = false;
-    }
-
-    public boolean isRunning(){
-        if(running) return true;
-        else return false;
-    }
-
-    public JSONArray getStops() {
-        return Stops;
     }
 }
