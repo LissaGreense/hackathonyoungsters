@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -23,7 +24,7 @@
         android:layout_height="10dp"
         android:src="@drawable/lineicon"
         android:contentDescription="@null"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/imageView2"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
@@ -35,7 +36,7 @@
         android:layout_height="10dp"
 
         android:src="@drawable/lineicon"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
         android:contentDescription="@null"
@@ -45,31 +46,44 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="TextView"
+        android:layout_marginTop="20dp"
+        android:textSize="32sp"
+        android:text="Lorem Ipsum"
+        android:textColor="@color/titlecolor"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:src="@drawable/tramicon"
-        android:layout_marginBottom="78dp"
+        android:layout_height="120dp"
         android:contentDescription="@string/tram"
-        android:layout_above="@+id/action_settings"
+        app:srcCompat="@drawable/tramicon"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/imageView4"
         android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:src="@drawable/busicon"
-        android:layout_marginBottom="78dp"
-        android:layout_above="@+id/action_settings"
-        android:layout_alignParentStart="true"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/busicon"
         android:contentDescription="@string/bus"
+        android:visibility="invisible"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="46dp" />
 
-        />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dolor sit amet"
+        android:textSize="32sp"
+        android:layout_marginBottom="61dp"
+        android:layout_above="@+id/action_settings"
+        android:textColor="@color/titlecolor"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>
