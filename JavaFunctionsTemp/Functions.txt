@@ -1,4 +1,4 @@
- public static double coordinatesToDistance(double latitiudeDevice, double latitiudeStop, double longtitiudeDevice,double longtitiudeStop)
+public static double coordinatesToDistance(double latitiudeDevice, double latitiudeStop, double longtitiudeDevice,double longtitiudeStop)
     {
 
         final int RADIUS = 6371;
@@ -8,6 +8,6 @@
                 + Math.cos(Math.toRadians(latitiudeDevice)) * Math.cos(Math.toRadians(latitiudeStop))
                 * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         tempDistance = 2 * Math.atan2(Math.sqrt(tempDistance), Math.sqrt(1 - tempDistance));
-        double distance = RADIUS * c * 1000;
+        double distance = RADIUS * tempDistance * 1000;
         return Math.abs(distance);
     }
