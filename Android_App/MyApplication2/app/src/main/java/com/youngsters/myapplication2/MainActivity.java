@@ -2,6 +2,7 @@ package com.youngsters.myapplication2;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     JSONArray stopsList;
     JSONArray stopDelaysList;
+
+    Thread threadDownloadStops, threadStopDelays;
 
     int nearestStop;
 
@@ -46,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
         longitude = -1;
         latitude = -1;
 
-
-        Thread t = new Thread(new Runnable() {
+        threadDownloadStops = new Thread(new Runnable() {
             @Override
             public void run() {
                 DownloadStops stops = new DownloadStops();
@@ -62,70 +66,91 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //download stops finished
                 stopsList = stops.getStopsArray();
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        configureGPS();
-                        complete.setText("gps");
-                    }
-                });
-
-
-                while(longitude == -1 || latitude == -1){
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //gps position got
-
-                wait = true;
-                nearestStop = -1;
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            nearestStop = getNearestStop(latitude, longitude, stopsList);
-                            complete.setText(nearestStop+"");
-                            wait = false;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-                while(wait){
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
-                stopDelays.execute();
-
-                while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //download stop delays completed
-                stopDelaysList = stopDelays.getDelays();
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                        try {
-                            complete.setText(stopDelaysList.get(0).toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                saveStops();
+                threadStopDelays.start();
             }
         });
-        t.start();
+
+
+        threadStopDelays = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                configureGPS();
+                complete.setText("gps");
+            }
+        });
+
+
+        while(longitude == -1 || latitude == -1){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //gps position got
+
+        wait = true;
+        nearestStop = -1;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    nearestStop = getNearestStop(latitude, longitude, stopsList);
+                    complete.setText(nearestStop+"");
+                    wait = false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        while(wait){
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+        stopDelays.execute();
+
+        while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //download stop delays completed
+        stopDelaysList = stopDelays.getDelays();
+        MainActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                try {
+                    complete.setText(stopDelaysList.get(0).toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+});
+
+        if(isThereSavedStops()){
+            stopsList = loadStops();
+            complete.setText("loaded");
+            threadStopDelays.start();
+        }
+        else {
+            // complete = (TextView) findViewById(R.id.complete);
+            threadDownloadStops.start();
+        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -206,5 +231,28 @@ public class MainActivity extends AppCompatActivity {
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+    }
+
+    private void saveStops(){
+        SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(stopsList);
+        prefsEditor.putString("StopsList", json);
+        prefsEditor.apply();
+    }
+
+    private boolean isThereSavedStops(){
+        SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
+        String json = mPrefs.getString("StopsList", "");
+        if(json.equals("")) return false;
+        else return true;
+    }
+
+    private JSONArray loadStops(){
+        SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("StopsList", "");
+        return gson.fromJson(json, JSONArray.class);
     }
 }
