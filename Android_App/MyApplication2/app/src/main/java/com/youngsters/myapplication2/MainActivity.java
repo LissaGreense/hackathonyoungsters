@@ -8,12 +8,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -26,8 +22,6 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView lon;
-    TextView lat;
     TextView complete;
     boolean wait;
 
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                 while (stops.getStatus() != AsyncTask.Status.FINISHED) {
                     try {
-                        sleep(500);
+                        sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -78,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                 while(longitude == -1 || latitude == -1){
                     try {
-                        sleep(500);
+                        sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -101,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                 while(wait){
                     try {
-                        sleep(500);
+                        sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -112,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                 while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
                     try {
-                        sleep(500);
+                        sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -153,19 +147,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public double coordinatesToDistance(double latitiudeDevice, double latitiudeStop, double longtitiudeDevice, double longtitiudeStop) {
-
-        final int RADIUS = 6371;
-        double latDistance = Math.toRadians(latitiudeStop - latitiudeDevice);
-        double lonDistance = Math.toRadians(longtitiudeStop - longtitiudeDevice);
-        double tempDistance = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(latitiudeDevice)) * Math.cos(Math.toRadians(latitiudeStop))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        tempDistance = 2 * Math.atan2(Math.sqrt(tempDistance), Math.sqrt(1 - tempDistance));
-        double distance = RADIUS * tempDistance * 1000;
-        return Math.abs(distance);
     }
 
     public int getNearestStop(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
