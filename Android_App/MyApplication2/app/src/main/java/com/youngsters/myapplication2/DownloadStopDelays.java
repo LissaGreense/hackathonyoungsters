@@ -1,6 +1,7 @@
 package com.youngsters.myapplication2;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +29,8 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        String address = "http://87.98.237.99:88/delays?stopId=" +id;
+        String stringID = Integer.toString(id);
+        String address = "http://87.98.237.99:88/delays?stopId=" +stringID;
 
         HttpURLConnection connection;
         BufferedReader reader;
