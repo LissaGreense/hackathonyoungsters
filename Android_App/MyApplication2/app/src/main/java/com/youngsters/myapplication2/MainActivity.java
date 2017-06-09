@@ -26,6 +26,13 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main, new MainFragment())
+                .addToBackStack("main")
+                .commit();
+
     }
 
     @Override
