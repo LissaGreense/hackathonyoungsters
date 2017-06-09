@@ -12,37 +12,45 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DownloadStops extends AsyncTask<Void, Void, Void> {
+/**
+ * Created by Michał 1984 on 2017-06-09.
+ */
 
-    private JSONArray Stops;
+public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
+
+    private JSONArray Delays;
+    private int id;
     private String json;
-    private boolean running;
+
+    DownloadStopDelays(int id){
+        super();
+        this.id = id;
+    }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Stops = null;
+        Delays = null;
         json = "";
-        running = true;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        String address = "http://91.244.248.19/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/cd4c08b5-460e-40db-b920-ab9fc93c1a92/download/stops.json";
+        String address = "http://87.98.237.99:88/delays?stopId=" +id;
 
         HttpURLConnection connection;
         BufferedReader reader;
 
-            try {
-                URL url = new URL(address);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
+        try {
+            URL url = new URL(address);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
 
-                InputStream stream = connection.getInputStream();
+            InputStream stream = connection.getInputStream();
 
-                reader = new BufferedReader(new InputStreamReader(stream));
+            reader = new BufferedReader(new InputStreamReader(stream));
 
-                String line;
+            String line;
             while ((line =reader.readLine()) != null) {
                 json += line;
             }
@@ -64,19 +72,13 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(json);
-            Stops = jsonObject.getJSONObject("2017-06-15").getJSONArray("stops");
+            Delays = jsonObject.getJSONArray("delay");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        running = false;
     }
 
-    public boolean isRunning(){
-        if(running) return true;
-        else return false;
-    }
-
-    public JSONArray getStops() {
-        return Stops;
+    public JSONArray getDelays() {
+        return Delays;
     }
 }
