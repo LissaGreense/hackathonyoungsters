@@ -9,7 +9,6 @@
         <path
             android:fillColor="#feda5f"
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="1"
             android:strokeLineCap="round"
@@ -18,7 +17,6 @@
         <path
             android:fillColor="#feda5f"
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="1"
             android:strokeLineCap="round"
@@ -27,7 +25,6 @@
         <path
             android:fillColor="#feda5f"
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="1.54602563"
             android:strokeLineCap="round"
@@ -36,7 +33,6 @@
         <path
             android:fillColor="#feda5f"
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="1.54602563"
             android:strokeLineCap="round"
@@ -45,7 +41,6 @@
         <path
             android:fillColor="#ffdc5e"
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="3.65123129"
             android:strokeLineCap="round"
@@ -68,7 +63,6 @@
 -1.187021,1.113009 l -3.157239,0 0,-2.994131 z" />
         <path
             android:fillAlpha="0.98999999"
-            android:fillType="evenOdd"
             android:strokeColor="#ffdc5e"
             android:strokeAlpha="0.98999999"
             android:strokeWidth="1.04050636"
