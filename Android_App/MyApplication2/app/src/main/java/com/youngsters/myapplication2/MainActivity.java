@@ -180,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
             double latitiudeStop = stop.getDouble("stopLat");
             double longitiudeStop = stop.getDouble("stopLon");
             Location stop_location = new Location("stop");
-            stop_location.setLatitude(latitiudeDevice);
-            stop_location.setLongitude(longtitiudeDevice);
+            stop_location.setLatitude(latitiudeStop);
+            stop_location.setLongitude(longitiudeStop);
             double distanceToThisStop =device.distanceTo(stop_location);
             if (distanceToThisStop < maxWayToStop) {
                 maxWayToStop = distanceToThisStop;
