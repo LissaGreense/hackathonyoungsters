@@ -4,7 +4,6 @@
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
-
     <group
             android:translateY="-1004.3622">
         <path

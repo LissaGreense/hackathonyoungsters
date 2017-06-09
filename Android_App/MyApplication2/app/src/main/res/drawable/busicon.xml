@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <group
+            android:translateY="-1004.3622">
+        <path
+            android:fillColor="#ffdc5e"
+            android:fillType="evenOdd"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:pathData="M 568.7832,-619.16992 0,2.02539 c 0,3.61499 2.9104,6.52539 6.52539,6.52539 l
+1.98047,0 c 3.615,0 6.52539,-2.9104 6.52539,-6.52539 l 0,-2.02539 -15.03125,0 z" />
+        <path
+            android:fillColor="#ffdc5e"
+            android:fillType="evenOdd"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:pathData="M 611.85547,-619.16992 0,2.02539 c 0,3.61499 2.9104,6.52539 6.52539,6.52539 l
+1.97852,0 c 3.61499,0 6.52539,-2.9104 6.52539,-6.52539 l 0,-2.02539 -15.0293,0 z" />
+        <path
+            android:fillColor="#ffdc5e"
+            android:fillType="evenOdd"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:pathData="M 555.23633,-662.79688 c -0.39303,0 -0.70899,0.31792 -0.70899,0.71094 l
+0,11.90235 c 0,0.39302 0.31596,0.70898 0.70899,0.70898 l 6.62695,0 0,-13.32227
+-6.62695,0 z" />
+        <path
+            android:fillColor="#ffdc5e"
+            android:fillType="evenOdd"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:pathData="M 633.80664,-662.79688 0,13.32227 6.625,0 c 0.39303,0 0.71094,-0.31596
+0.71094,-0.70898 l 0,-11.90235 c 0,-0.39302 -0.31791,-0.71094 -0.71094,-0.71094
+l -6.625,0 z" />
+        <path
+            android:fillColor="#ffdc5e"
+            android:fillType="evenOdd"
+            android:strokeWidth="3.65549207"
+            android:strokeLineCap="round"
+            android:pathData="M 567.29102,-688.58789 c -1.99463,0 -3.59961,1.60694 -3.59961,3.60156 l
+0,60.40821 c 0,1.99462 1.60498,3.5996 3.59961,3.5996 l 61.08789,0 c 1.99462,0
+3.59961,-1.605 3.59961,-3.5996 l 0,-60.40821 c 0,-1.99462 -1.60499,-3.60156
+-3.59961,-3.60156 l -61.08789,0 z m 6.18164,6.72656 49.35937,0 c 2.04839,0
+3.69727,1.70119 3.69727,3.81445 l 0,32.7129 -56.75586,0 0,-32.7129 c 0,-2.11327
+1.65084,-3.81445 3.69922,-3.81445 z m 2.02343,46.00195 a 5.4535346,5.4535346 0 0
+1 5.45508,5.45508 5.4535346,5.4535346 0 0 1 -5.45508,5.45313 5.4535346,5.4535346
+0 0 1 -5.45312,-5.45313 5.4535346,5.4535346 0 0 1 5.45312,-5.45508 z m
+44.63868,0 a 5.4535346,5.4535346 0 0 1 5.45312,5.45508 5.4535346,5.4535346 0 0 1
+-5.45312,5.45313 5.4535346,5.4535346 0 0 1 -5.45508,-5.45313 5.4535346,5.4535346
+0 0 1 5.45508,-5.45508 z" />
+    </group>
+</vector>
