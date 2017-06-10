@@ -23,12 +23,13 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.kadzetan, container, false);
 
+        istram = false;
 
         TextView stopname = (TextView) view.findViewById(R.id.stop_name);
         stopname.setText("Step One: blast egg");
 
         TextView line = (TextView) view.findViewById(R.id.vehicle_number);
-        stopname.setText("Step One: blast egg");
+        line.setText("Step One: blast egg");
 
         ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //tram
         ImageView tram = (ImageView) view.findViewById(R.id.tram_image); //tram
