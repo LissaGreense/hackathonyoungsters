@@ -21,13 +21,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="10dp"
+        android:layout_marginTop="10dp"
         app:srcCompat="@drawable/lineicon"
         android:contentDescription="@null"
-        android:layout_marginTop="20dp"
         android:id="@+id/imageView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        />
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -50,6 +49,33 @@
         android:textColor="@color/titlecolor"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"></LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="TO: "
+        android:textColor="@color/titlecolor"
+        android:textSize="28sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Lorem Ipsum"
+        android:textColor="@color/titlecolor"
+        android:textSize="32sp" />
 
     <ImageView
         android:id="@+id/tram_image"
