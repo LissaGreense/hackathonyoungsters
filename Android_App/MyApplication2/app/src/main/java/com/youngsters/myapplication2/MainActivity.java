@@ -66,8 +66,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //download stops finished
                 stopsList = stops.getStopsArray();
-                saveStops();
-                threadStopDelays.start();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        saveStops();
+                        threadStopDelays.start();
+                    }
+                });
             }
         });
 
@@ -76,80 +80,91 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                configureGPS();
-                complete.setText("gps");
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        configureGPS();
+                        complete.setText("gps");
+                    }
+                });
+
+
+                while (longitude == -1 || latitude == -1) {
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //gps position got
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        complete.setText("searching stop");
+                    }
+                });
+
+                wait = true;
+                nearestStop = -1;
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            nearestStop = getNearestStop(latitude, longitude, stopsList);
+                            complete.setText(nearestStop + "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        wait = false;
+                    }
+                });
+
+                while (wait) {
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        complete.setText("downloading delays");
+                    }
+                });
+
+                DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+                stopDelays.execute();
+
+                while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
+                    try {
+                        sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //download stop delays completed
+                stopDelaysList = stopDelays.getDelays();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        try {
+                            complete.setText(stopDelaysList.get(0).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        });
+                    }
+                });
             }
         });
 
+                if (isThereSavedStops()) {
+                    stopsList = loadStops();
+                    complete.setText("loaded");
+                    threadStopDelays.start();
 
-        while(longitude == -1 || latitude == -1){
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        //gps position got
-
-        wait = true;
-        nearestStop = -1;
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    nearestStop = getNearestStop(latitude, longitude, stopsList);
-                    complete.setText(nearestStop+"");
-                    wait = false;
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    complete.setText("downloading Stops");
+                    threadDownloadStops.start();
                 }
             }
-        });
-
-        while(wait){
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
-        stopDelays.execute();
-
-        while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        //download stop delays completed
-        stopDelaysList = stopDelays.getDelays();
-        MainActivity.this.runOnUiThread(new Runnable() {
-            public void run() {
-                try {
-                    complete.setText(stopDelaysList.get(0).toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-});
-
-        if(isThereSavedStops()){
-            stopsList = loadStops();
-            complete.setText("loaded");
-            threadStopDelays.start();
-        }
-        else {
-            // complete = (TextView) findViewById(R.id.complete);
-            threadDownloadStops.start();
-        }
-
-    }
 
 
     @Override
@@ -256,3 +271,4 @@ public class MainActivity extends AppCompatActivity {
         return gson.fromJson(json, JSONArray.class);
     }
 }
+
