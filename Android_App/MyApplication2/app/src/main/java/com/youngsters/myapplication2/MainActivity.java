@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean isBus;
 
-    TextView complete;
     boolean wait;
 
     JSONArray stopsList;
@@ -91,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         configureGPS();
-                        complete.setText("gps");
                     }
                 });
 
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        complete.setText("searching stop");
                     }
                 });
 
@@ -120,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        complete.setText(nearestStop + "");
                     }
                 });
                 wait = false;
@@ -135,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        complete.setText("downloading delays");
                     }
                 });
                 for(int i =0;i<closeststops.size();i++)
@@ -160,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
                                 String ID = vehicle.getString("routeId");
                                 String headsign = vehicle.getString("headsign");
                                 if((headsign.length() > 2 && isBus == true )|| (headsign.length() < 3 && isBus == false )) {
-                                    complete.setText(nearestStop + " \n" + stopDelaysList.toString());
                                     char temp = time.charAt(0);
                                     if (temp == '0') temp = ' ';
 
@@ -187,11 +181,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (isThereSavedStops()) {
             stopsList = loadStops();
-            complete.setText("loaded");
             threadStopDelays.start();
 
         } else {
-            complete.setText("downloading Stops");
             threadDownloadStops.start();
         }
 
