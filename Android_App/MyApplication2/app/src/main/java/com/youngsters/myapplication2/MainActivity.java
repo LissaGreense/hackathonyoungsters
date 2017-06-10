@@ -8,7 +8,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,6 +23,8 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import static java.lang.Thread.sleep;
 
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     double longitude;
     double latitude;
+    TextToSpeech t1;
+    CharSequence toSpeak = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         stopsList = null;
         stopDelaysList = null;
 
-        complete = (TextView) findViewById(R.id.complete);
+        //complete = (TextView) findViewById(R.id.complete);
 
         longitude = -1;
         latitude = -1;
@@ -131,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+                final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
                 stopDelays.execute();
 
                 while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
@@ -146,25 +154,41 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         try {
-                            complete.setText(stopDelaysList.get(0).toString());
+                            JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
+                            String time = vehicle.getString("estimatedTime");
+                            String ID = vehicle.getString("routeId");
+                            String headsign = vehicle.getString("headsign");
+
+                            toSpeak = "Attention Please,in " + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
+                            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                @Override
+                                public void onInit(int status) {
+                                    if (status != TextToSpeech.ERROR) {
+                                        t1.setLanguage(Locale.UK);
+                                        t1.speak(toSpeak, 1, null, null);
+                                    }
+                                }
+                            });
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        });
+                        }
                     }
                 });
             }
         });
 
-                if (isThereSavedStops()) {
-                    stopsList = loadStops();
-                    complete.setText("loaded");
-                    threadStopDelays.start();
+        if (isThereSavedStops()) {
+            stopsList = loadStops();
+            complete.setText("loaded");
+            threadStopDelays.start();
 
-                } else {
-                    complete.setText("downloading Stops");
-                    threadDownloadStops.start();
-                }
-            }
+        } else {
+            complete.setText("downloading Stops");
+            threadDownloadStops.start();
+        }
+    }
 
 
     @Override
