@@ -6,4 +6,6 @@
     <color name="colorViolet">#ab37c8</color>
     <color name="colorDetails">#ffdc5f</color>
     <color name="titlecolor">#ffdc5f</color>
+    <color name="select">#ac39c7</color>
+
 </resources>
