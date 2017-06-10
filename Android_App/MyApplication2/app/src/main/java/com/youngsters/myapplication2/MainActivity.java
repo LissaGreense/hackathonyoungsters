@@ -24,6 +24,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static java.lang.Thread.sleep;
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     double latitude;
     TextToSpeech t1;
     CharSequence toSpeak = "";
-
+    List<Integer> closeststops = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,45 +140,48 @@ public class MainActivity extends AppCompatActivity {
                         complete.setText("downloading delays");
                     }
                 });
+                for(int i =0;i<closeststops.size();i++)
+                {final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+                    stopDelays.execute();
 
-                final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
-                stopDelays.execute();
-
-                while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                //download stop delays completed
-                stopDelaysList = stopDelays.getDelays();
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
+                    while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
                         try {
-                            complete.setText(nearestStop+" \n"+stopDelaysList.toString());
-                            JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
-                            String time = vehicle.getString("estimatedTime");
-                            String ID = vehicle.getString("routeId");
-                            String headsign = vehicle.getString("headsign");
-
-                            toSpeak = "Attention Please,in " + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
-                            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                @Override
-                                public void onInit(int status) {
-                                    if (status != TextToSpeech.ERROR) {
-                                        t1.setLanguage(Locale.UK);
-                                        t1.speak(toSpeak, 1, null, null);
-                                    }
-                                }
-                            });
-
-                        } catch (JSONException e) {
+                            sleep(100);
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                });
+                    //download stop delays completed
+                    stopDelaysList = stopDelays.getDelays();
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            try {
+                                complete.setText(nearestStop + " \n" + stopDelaysList.toString());
+                                JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
+                                String time = vehicle.getString("estimatedTime");
+                                String ID = vehicle.getString("routeId");
+                                String headsign = vehicle.getString("headsign");
+                                char temp = time.charAt(0);
+                                if (temp == '0') temp = ' ';
+
+                                toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
+                                t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                    @Override
+                                    public void onInit(int status) {
+                                        if (status != TextToSpeech.ERROR) {
+                                            t1.setLanguage(Locale.UK);
+                                            t1.speak(toSpeak, 1, null, null);
+                                        }
+                                    }
+                                });
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -234,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
             if (distanceToThisStop < maxWayToStop) {
                 maxWayToStop = distanceToThisStop;
                 closestStop = id;
+                closeststops.add(id);
             }
         }
         return closestStop;
