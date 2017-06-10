@@ -104,16 +104,18 @@ public class MainActivity extends AppCompatActivity {
                 //gps position got
 
 
-
-                wait = true;
-                nearestStop = -2013;
-                try {
-                    nearestStop = getNearestStop(latitude, longitude, stopsList);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
                 wait = false;
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        nearestStop = -2013;
+                        try {
+                            nearestStop = getNearestStop(latitude, longitude, stopsList);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        wait = true;
+                    }
+                });
 
                 while (wait) {
                     try {
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                for(int i =0;i<closeststops.size();i++)
+                for(int i =0;i < closeststops.size();i++)
                 {final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
                     stopDelays.execute();
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                 String time = vehicle.getString("estimatedTime");
                                 String ID = vehicle.getString("routeId");
                                 String headsign = vehicle.getString("headsign");
-                                if((headsign.length() > 2 && isBus == true )|| (headsign.length() < 3 && isBus == false )) {
+                                if((headsign.length() > 2 && isBus )|| (headsign.length() < 3 && !isBus )) {
                                     char temp = time.charAt(0);
                                     if (temp == '0') temp = ' ';
 
