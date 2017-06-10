@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         stopsList = null;
         stopDelaysList = null;
 
-        complete = (TextView) findViewById(R.id.complete);
+        //complete = (TextView) findViewById(R.id.complete);
 
         longitude = -1;
         latitude = -1;
@@ -159,36 +159,36 @@ public class MainActivity extends AppCompatActivity {
                             String ID = vehicle.getString("routeId");
                             String headsign = vehicle.getString("headsign");
 
-                            toSpeak = "Attention Please,in "+time.charAt(1)+" minutes, buss number "+ID+" to "+headsign+" will arrive";
+                            toSpeak = "Attention Please,in " + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
                             t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
                                 public void onInit(int status) {
-                                    if(status != TextToSpeech.ERROR) {
+                                    if (status != TextToSpeech.ERROR) {
                                         t1.setLanguage(Locale.UK);
-                                        t1.speak(toSpeak,1,null,null);
+                                        t1.speak(toSpeak, 1, null, null);
                                     }
                                 }
                             });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        });
+                        }
                     }
                 });
             }
         });
 
-                if (isThereSavedStops()) {
-                    stopsList = loadStops();
-                    complete.setText("loaded");
-                    threadStopDelays.start();
+        if (isThereSavedStops()) {
+            stopsList = loadStops();
+            complete.setText("loaded");
+            threadStopDelays.start();
 
-                } else {
-                    complete.setText("downloading Stops");
-                    threadDownloadStops.start();
-                }
-            }
+        } else {
+            complete.setText("downloading Stops");
+            threadDownloadStops.start();
+        }
+    }
 
 
     @Override
