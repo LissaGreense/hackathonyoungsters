@@ -275,7 +275,6 @@ public class MainFragment extends Fragment {
             stop_location.setLongitude(longitiudeStop);
             double distanceToThisStop =device.distanceTo(stop_location);
             if (distanceToThisStop < maxWayToStop) {
-                maxWayToStop = distanceToThisStop;
                 closestStop = id;
                 closeststops.add(id);
             }
