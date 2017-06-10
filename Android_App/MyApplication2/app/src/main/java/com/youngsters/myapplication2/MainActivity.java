@@ -156,26 +156,28 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             try {
-                                complete.setText(nearestStop + " \n" + stopDelaysList.toString());
+
                                 JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
                                 String time = vehicle.getString("estimatedTime");
                                 String ID = vehicle.getString("routeId");
                                 String headsign = vehicle.getString("headsign");
-                                char temp = time.charAt(0);
-                                if (temp == '0') temp = ' ';
+                                if((headsign.length() > 2 && isBus == true )|| (headsign.length() < 3 && isBus == false )) {
+                                    complete.setText(nearestStop + " \n" + stopDelaysList.toString());
+                                    char temp = time.charAt(0);
+                                    if (temp == '0') temp = ' ';
 
-                                toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
-                                t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                    @Override
-                                    public void onInit(int status) {
-                                        if (status != TextToSpeech.ERROR) {
-                                            t1.setLanguage(Locale.UK);
-                                            t1.speak(toSpeak, 1, null, null);
+                                    toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
+                                    t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                        @Override
+                                        public void onInit(int status) {
+                                            if (status != TextToSpeech.ERROR) {
+                                                t1.setLanguage(Locale.UK);
+                                                t1.speak(toSpeak, 1, null, null);
+                                            }
                                         }
-                                    }
-                                });
-
+                                    });
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
