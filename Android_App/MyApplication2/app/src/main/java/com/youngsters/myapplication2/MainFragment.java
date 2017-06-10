@@ -184,7 +184,7 @@ public class MainFragment extends Fragment {
                 }
 
 
-                for(int i =0;i < closeststops.size();i++)
+                for(int i =0; i < closeststops.size(); i++)
                 {
                     final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
                     stopDelays.execute();
@@ -211,13 +211,13 @@ public class MainFragment extends Fragment {
                                     String ID = vehicle.getString("routeId");
                                     String headsign = vehicle.getString("headsign");
 
-                                    if((ID.length() > 2 && MainActivity.isBus )|| (ID.length() < 3 && !MainActivity.isBus )) {
+                                    //bus
+                                    if(ID.length() > 2 && MainActivity.isBus) {
                                         char temp = time.charAt(0);
                                         if (temp == '0') temp = ' ';
                                         stopname.setText(ID);
                                         line.setText(headsign);
-                                        if(MainActivity.isBus)toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
-                                        else toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
                                         t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
                                             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                             @Override
@@ -229,6 +229,25 @@ public class MainFragment extends Fragment {
                                             }
                                         });
                                     }
+                                    //tram
+                                    else if (ID.length() < 3 && !MainActivity.isBus ) {
+                                        char temp = time.charAt(0);
+                                        if (temp == '0') temp = ' ';
+                                        stopname.setText(ID);
+                                        line.setText(headsign);
+                                        toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                            @Override
+                                            public void onInit(int status) {
+                                                if (status != TextToSpeech.ERROR) {
+                                                    t1.setLanguage(Locale.UK);
+                                                    t1.speak(toSpeak, 1, null, null);
+                                                }
+                                            }
+                                        });
+                                    }
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
