@@ -15,14 +15,35 @@ import android.widget.ImageButton;
 public class TramOrBusFragment extends Fragment {
 
     View view;
+    boolean isBus;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.popup, container, false);
 
+        isBus = false;
+
         ImageButton tram  = (ImageButton) view.findViewById(R.id.tram);
         ImageButton bus  = (ImageButton) view.findViewById(R.id.bus);
+
+        tram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isBus = false;
+                MainActivity.isBus = false;
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        bus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isBus = true;
+                MainActivity.isBus = true;
+                getFragmentManager().popBackStack();
+            }
+        });
 
         return view;
     }

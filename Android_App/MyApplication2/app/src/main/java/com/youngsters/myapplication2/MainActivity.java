@@ -18,8 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +29,8 @@ import java.util.Locale;
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static boolean isBus;
 
     TextView complete;
     boolean wait;
