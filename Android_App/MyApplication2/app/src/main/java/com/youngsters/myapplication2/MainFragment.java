@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -52,6 +53,10 @@ public class MainFragment extends Fragment {
 
     TextView stopname, line;
 
+    Typeface font;
+
+    final int MAX_RADIUS = 160;
+
     int nearestStop;
 
     double longitude;
@@ -68,18 +73,24 @@ public class MainFragment extends Fragment {
         stopsList = null;
         stopDelaysList = null;
 
+        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/jaapokki-regular.ttf");
+
         longitude = -1;
         latitude = -1;
 
         istram = false;
 
         stopname = (TextView) view.findViewById(R.id.stop_name);
-        stopname.setText("Stop_name");
+        stopname.setText("stop name");
+        stopname.setTypeface(font);
+        stopname.setAllCaps(true);
 
         line = (TextView) view.findViewById(R.id.vehicle_number);
-        line.setText("Vehicle_num");
+        line.setText("vehicle number");
+        line.setTypeface(font);
+        line.setAllCaps(true);
 
-        ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //tram
+        ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //bus
         ImageView tram = (ImageView) view.findViewById(R.id.tram_image); //tram
 
         configureThreads();
@@ -126,7 +137,6 @@ public class MainFragment extends Fragment {
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            stopname.setText("works");
                             saveStops();
                             threadStopDelays.start();
                         }
@@ -138,11 +148,10 @@ public class MainFragment extends Fragment {
         threadStopDelays = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(getActivity() == null) return;
+                if (getActivity() == null) return;
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            stopname.setText("gps");
                             configureGPS();
                         }
                     });
@@ -160,107 +169,132 @@ public class MainFragment extends Fragment {
 
 
                 wait = true;
-                if(getActivity() == null) return;
+                if (getActivity() == null) return;
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            nearestStop = -2013;
-                            stopname.setText("nearestStop");
+                            nearestStop = -2;
                             try {
                                 nearestStop = getNearestStop(latitude, longitude, stopsList);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }stopname.setText("nearestStop");
-                            wait = false;
+                                wait = false;
+                            }
                         }
                     });
-                }
-                while (wait) {
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                for(int i =0; i < closeststops.size(); i++)
-                {
-                    final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
-                    stopDelays.execute();
-
-                    while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
+                    while (wait) {
                         try {
                             sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    //download stop delays completed
-                    stopDelaysList = stopDelays.getDelays();
-                    if(stopDelaysList.length()>0)
-                    {
-                        if(getActivity() == null) return;
-                        else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            public void run() {
-                                stopname.setText("speak");
-                                try {
-                                    JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
-                                    String time = vehicle.getString("estimatedTime");
-                                    String ID = vehicle.getString("routeId");
-                                    String headsign = vehicle.getString("headsign");
 
-                                    //bus
-                                    if(ID.length() > 2 && MainActivity.isBus) {
-                                        char temp = time.charAt(0);
-                                        if (temp == '0') temp = ' ';
-                                        stopname.setText(ID);
-                                        line.setText(headsign);
-                                        toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
-                                        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-                                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                            @Override
-                                            public void onInit(int status) {
-                                                if (status != TextToSpeech.ERROR) {
-                                                    t1.setLanguage(Locale.UK);
-                                                    t1.speak(toSpeak, 1, null, null);
-                                                }
-                                            }
-                                        });
-                                    }
-                                    //tram
-                                    else if (ID.length() < 3 && !MainActivity.isBus ) {
-                                        char temp = time.charAt(0);
-                                        if (temp == '0') temp = ' ';
-                                        stopname.setText(ID);
-                                        line.setText(headsign);
-                                        toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, tram number " + ID + " to " + headsign + " will arrive";
-                                        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-                                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                                            @Override
-                                            public void onInit(int status) {
-                                                if (status != TextToSpeech.ERROR) {
-                                                    t1.setLanguage(Locale.UK);
-                                                    t1.speak(toSpeak, 1, null, null);
-                                                }
-                                            }
-                                        });
-                                    }
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                    for (int i = 0; i < closeststops.size(); i++) {
+                        final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
+                        stopDelays.execute();
+
+                        while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
+                            try {
+                                sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        //download stop delays completed
+                        stopDelaysList = stopDelays.getDelays();
+                        if (stopDelaysList.length() > 0) {
+                            if (getActivity() == null) return;
+                            else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
+                                            String time = vehicle.getString("estimatedTime");
+                                            String ID = vehicle.getString("routeId");
+                                            String headsign = vehicle.getString("headsign");
+
+                                            //bus
+                                            if (ID.length() > 2 && MainActivity.isBus) {
+                                                char temp = time.charAt(0);
+                                                if (temp == '0') temp = ' ';
+                                                stopname.setText(ID);
+                                                line.setText(headsign);
+                                                toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
+                                                t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                                    @Override
+                                                    public void onInit(int status) {
+                                                        if (status != TextToSpeech.ERROR) {
+                                                            t1.setLanguage(Locale.UK);
+                                                            t1.speak(toSpeak, 1, null, null);
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            //tram
+                                            else if (ID.length() < 3 && !MainActivity.isBus) {
+                                                char temp = time.charAt(0);
+                                                if (temp == '0') temp = ' ';
+                                                stopname.setText(ID);
+                                                line.setText(headsign);
+                                                toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                                t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                                    @Override
+                                                    public void onInit(int status) {
+                                                        if (status != TextToSpeech.ERROR) {
+                                                            t1.setLanguage(Locale.UK);
+                                                            t1.speak(toSpeak, 1, null, null);
+                                                        }
+                                                    }
+                                                });
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                        else{
+                            toSpeak = "There are no buses arriving from stops in radius of" +MAX_RADIUS +" meters" ;
+                            t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                                @Override
+                                public void onInit(int status) {
+                                    if (status != TextToSpeech.ERROR) {
+                                        t1.setLanguage(Locale.UK);
+                                        t1.speak(toSpeak, 1, null, null);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    if(closeststops.size() == 0){
+                        toSpeak = "There are no stops in radius of" +MAX_RADIUS +" meters" ;
+                        t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                            @Override
+                            public void onInit(int status) {
+                                if (status != TextToSpeech.ERROR) {
+                                    t1.setLanguage(Locale.UK);
+                                    t1.speak(toSpeak, 1, null, null);
                                 }
                             }
                         });
-                    }}}
+                    }
+                }
             }
         });
     }
 
 
     public int getNearestStop(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
-        double maxWayToStop = 160;
+        double maxWayToStop = MAX_RADIUS;
         int closestStop = -1;
         Location device = new Location("device");
         device.setLatitude(latitiudeDevice);
@@ -291,8 +325,6 @@ public class MainFragment extends Fragment {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                //lat.setText(""+latitude);
-                //lon.setText(""+longitude);
             }
 
             @Override

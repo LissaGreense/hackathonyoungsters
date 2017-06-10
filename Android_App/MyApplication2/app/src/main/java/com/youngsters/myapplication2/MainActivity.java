@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_main, new TramOrBusFragment())
-                .addToBackStack("tramOrBus")
                 .commit();
 
     }
