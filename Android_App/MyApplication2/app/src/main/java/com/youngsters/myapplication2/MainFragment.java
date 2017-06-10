@@ -216,7 +216,7 @@ public class MainFragment extends Fragment {
                                         if (temp == '0') temp = ' ';
                                         stopname.setText(ID);
                                         line.setText(headsign);
-                                        toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
+                                        toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
                                         t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
                                             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                             @Override
