@@ -284,8 +284,7 @@ public class MainActivity extends AppCompatActivity {
     private void saveStops(){
         SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(stopsList);
+        String json = stopsList.toString();
         prefsEditor.putString("StopsList", json);
         prefsEditor.apply();
     }
@@ -299,9 +298,14 @@ public class MainActivity extends AppCompatActivity {
 
     private JSONArray loadStops(){
         SharedPreferences  mPrefs = getPreferences(MODE_PRIVATE);
-        Gson gson = new Gson();
         String json = mPrefs.getString("StopsList", "");
-        return gson.fromJson(json, JSONArray.class);
+        JSONArray array = null;
+        try {
+            array = new JSONArray(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return array;
     }
 }
 

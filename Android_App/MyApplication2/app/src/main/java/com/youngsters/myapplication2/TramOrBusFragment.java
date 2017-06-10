@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 /**
  * Created by Michał 1984 on 2017-06-10.
@@ -20,7 +21,8 @@ public class TramOrBusFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.popup, container, false);
 
-
+        ImageButton tram  = (ImageButton) view.findViewById(R.id.tram);
+        ImageButton bus  = (ImageButton) view.findViewById(R.id.bus);
 
         return view;
     }
