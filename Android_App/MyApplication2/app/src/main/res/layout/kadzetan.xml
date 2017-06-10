@@ -34,13 +34,13 @@
         android:layout_height="10dp"
         app:srcCompat="@drawable/lineicon"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/stop_name"
         android:layout_alignParentStart="true"
         android:contentDescription="@null"
         />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/stop_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -51,17 +51,17 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/tram_image"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:contentDescription="@string/tram"
         app:srcCompat="@drawable/tram_icon"
         android:visibility="invisible"
-        android:layout_alignTop="@+id/imageView4"
+        android:layout_alignTop="@+id/bus_image"
         android:layout_alignParentStart="true" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/bus_image"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         app:srcCompat="@drawable/bus_icon"
@@ -72,7 +72,7 @@
         android:layout_marginTop="46dp" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/vehicle_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dolor sit amet"
