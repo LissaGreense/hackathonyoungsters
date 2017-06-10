@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         stopsList = null;
         stopDelaysList = null;
 
-        //complete = (TextView) findViewById(R.id.complete);
+        complete = (TextView) findViewById(R.id.complete);
 
         longitude = -1;
         latitude = -1;
@@ -112,18 +112,18 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 wait = true;
-                nearestStop = -1;
+                nearestStop = -2013;
+                try {
+                    nearestStop = getNearestStop(latitude, longitude, stopsList);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        try {
-                            nearestStop = getNearestStop(latitude, longitude, stopsList);
-                            complete.setText(nearestStop + "");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        wait = false;
+                        complete.setText(nearestStop + "");
                     }
                 });
+                wait = false;
 
                 while (wait) {
                     try {
@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         try {
+                            complete.setText(nearestStop+" \n"+stopDelaysList.toString());
                             JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
                             String time = vehicle.getString("estimatedTime");
                             String ID = vehicle.getString("routeId");
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (isThereSavedStops()) {
+        /*if (isThereSavedStops()) {
             stopsList = loadStops();
             complete.setText("loaded");
             threadStopDelays.start();
@@ -188,6 +189,8 @@ public class MainActivity extends AppCompatActivity {
             complete.setText("downloading Stops");
             threadDownloadStops.start();
         }
+        */
+        threadDownloadStops.start();
     }
 
 
@@ -214,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public int getNearestStop(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
-        double maxWayToStop = 16;
+        double maxWayToStop = 160;
         int closestStop = -1;
         Location device = new Location("device");
         device.setLatitude(latitiudeDevice);
