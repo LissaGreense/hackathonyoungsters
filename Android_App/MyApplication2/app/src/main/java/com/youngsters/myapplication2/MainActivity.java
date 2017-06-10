@@ -103,10 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //gps position got
 
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                    }
-                });
+
 
                 wait = true;
                 nearestStop = -2013;
@@ -115,10 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                    }
-                });
+
                 wait = false;
 
                 while (wait) {
@@ -129,10 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    public void run() {
-                    }
-                });
+
                 for(int i =0;i<closeststops.size();i++)
                 {final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
                     stopDelays.execute();
@@ -146,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //download stop delays completed
                     stopDelaysList = stopDelays.getDelays();
+                    if(stopDelaysList.length()>0)
+                    {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
                             try {
@@ -175,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-                }
+                }}
             }
         });
 
