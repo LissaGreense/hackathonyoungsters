@@ -216,7 +216,8 @@ public class MainFragment extends Fragment {
                                         if (temp == '0') temp = ' ';
                                         stopname.setText(ID);
                                         line.setText(headsign);
-                                        toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
+                                        if(MainActivity.isBus)toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, bus number " + ID + " to " + headsign + " will arrive";
+                                        else toSpeak = "Attention Please, in " + temp + time.charAt(1) + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
                                             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                             @Override
