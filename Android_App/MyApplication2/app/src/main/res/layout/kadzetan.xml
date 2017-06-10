@@ -6,23 +6,22 @@
     android:weightSum="1">
 
     <ImageButton
-        android:id="@+id/action_settings"
+        android:id="@+id/imageButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_toEndOf="@+id/textView2"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/action_settings"
         android:scaleType="centerCrop"
-        android:srcCompat="@drawable/settingicon"
-        android:visibility="invisible"
+        android:src="@drawable/settingicon"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:srcCompat="@drawable/lineicon"
+        android:src="@drawable/lineicon"
         android:contentDescription="@null"
         android:layout_marginTop="20dp"
         android:id="@+id/imageView2"
@@ -35,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
 
-        android:srcCompat="@drawable/lineicon"
+        android:src="@drawable/lineicon"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
@@ -58,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:contentDescription="@string/tram"
-        app:srcCompat="@drawable/tramicon"
+        app:srcCompat="@drawable/tram_icon"
         android:visibility="invisible"
         android:layout_alignTop="@+id/imageView4"
         android:layout_alignParentStart="true" />
@@ -67,7 +66,7 @@
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        app:srcCompat="@drawable/busicon"
+        app:srcCompat="@drawable/bus_icon"
         android:contentDescription="@string/bus"
         android:visibility="invisible"
         android:layout_below="@+id/imageView"
@@ -81,7 +80,7 @@
         android:text="Dolor sit amet"
         android:textSize="32sp"
         android:layout_marginBottom="61dp"
-        android:layout_above="@+id/action_settings"
+        android:layout_above="@+id/imageButton"
         android:textColor="@color/titlecolor"
         android:layout_centerHorizontal="true" />
 
