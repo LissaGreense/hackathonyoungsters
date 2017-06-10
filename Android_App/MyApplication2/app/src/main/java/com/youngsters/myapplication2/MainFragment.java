@@ -159,7 +159,7 @@ public class MainFragment extends Fragment {
                 //gps position got
 
 
-                wait = false;
+                wait = true;
                 if(getActivity() == null) return;
                 else {
                     getActivity().runOnUiThread(new Runnable() {
@@ -170,8 +170,8 @@ public class MainFragment extends Fragment {
                                 nearestStop = getNearestStop(latitude, longitude, stopsList);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                            }
-                            wait = true;
+                            }stopname.setText("nearestStop");
+                            wait = false;
                         }
                     });
                 }
