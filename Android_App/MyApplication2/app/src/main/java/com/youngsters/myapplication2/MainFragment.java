@@ -185,7 +185,8 @@ public class MainFragment extends Fragment {
 
 
                 for(int i =0;i < closeststops.size();i++)
-                {final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
+                {
+                    final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
                     stopDelays.execute();
 
                     while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
@@ -205,7 +206,6 @@ public class MainFragment extends Fragment {
                             public void run() {
                                 stopname.setText("speak");
                                 try {
-
                                     JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
                                     String time = vehicle.getString("estimatedTime");
                                     String ID = vehicle.getString("routeId");
