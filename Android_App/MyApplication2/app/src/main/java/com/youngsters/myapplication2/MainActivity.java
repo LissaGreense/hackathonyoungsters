@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                             String ID = vehicle.getString("routeId");
                             String headsign = vehicle.getString("headsign");
 
-                            toSpeak = "Attention Please,in "+time.charAt(1)+" minutes, buss number "+ID+" to "+headsign+" will arive";
+                            toSpeak = "Attention Please,in "+time.charAt(1)+" minutes, buss number "+ID+" to "+headsign+" will arrive";
                             t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                 @Override
