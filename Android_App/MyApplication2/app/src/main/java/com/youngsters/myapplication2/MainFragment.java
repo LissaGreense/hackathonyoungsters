@@ -50,6 +50,8 @@ public class MainFragment extends Fragment {
 
     ImageView image;
 
+    TextView stopname, line;
+
     int nearestStop;
 
     double longitude;
@@ -71,10 +73,10 @@ public class MainFragment extends Fragment {
 
         istram = false;
 
-        TextView stopname = (TextView) view.findViewById(R.id.stop_name);
+        stopname = (TextView) view.findViewById(R.id.stop_name);
         stopname.setText("Stop_name");
 
-        TextView line = (TextView) view.findViewById(R.id.vehicle_number);
+        line = (TextView) view.findViewById(R.id.vehicle_number);
         line.setText("Vehicle_num");
 
         ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //tram
@@ -124,6 +126,7 @@ public class MainFragment extends Fragment {
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
+                            stopname.setText("works");
                             saveStops();
                             threadStopDelays.start();
                         }
@@ -139,6 +142,7 @@ public class MainFragment extends Fragment {
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
+                            stopname.setText("gps");
                             configureGPS();
                         }
                     });
@@ -161,6 +165,7 @@ public class MainFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             nearestStop = -2013;
+                            stopname.setText("nearestStop");
                             try {
                                 nearestStop = getNearestStop(latitude, longitude, stopsList);
                             } catch (JSONException e) {
@@ -198,12 +203,15 @@ public class MainFragment extends Fragment {
                         else {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
+                                stopname.setText("speak");
                                 try {
 
                                     JSONObject vehicle = (JSONObject) stopDelaysList.get(0);
                                     String time = vehicle.getString("estimatedTime");
                                     String ID = vehicle.getString("routeId");
                                     String headsign = vehicle.getString("headsign");
+                                    stopname.setText(ID);
+                                    line.setText(headsign);
                                     if((headsign.length() > 2 && MainActivity.isBus )|| (headsign.length() < 3 && !MainActivity.isBus )) {
                                         char temp = time.charAt(0);
                                         if (temp == '0') temp = ' ';
