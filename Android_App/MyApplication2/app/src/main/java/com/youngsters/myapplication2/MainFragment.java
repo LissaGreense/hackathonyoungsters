@@ -51,7 +51,7 @@ public class MainFragment extends Fragment {
 
     ImageView image;
 
-    TextView stopname, line;
+    TextView stopname, line, to;
 
     Typeface font;
 
@@ -81,14 +81,13 @@ public class MainFragment extends Fragment {
         istram = false;
 
         stopname = (TextView) view.findViewById(R.id.stop_name);
-        stopname.setText("stop name");
         stopname.setTypeface(font);
-        stopname.setAllCaps(true);
 
         line = (TextView) view.findViewById(R.id.vehicle_number);
-        line.setText("vehicle number");
         line.setTypeface(font);
-        line.setAllCaps(true);
+
+        to = (TextView) view.findViewById(R.id.TO);
+        to.setTypeface(font);
 
         ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //bus
         ImageView tram = (ImageView) view.findViewById(R.id.tram_image); //tram
@@ -99,11 +98,13 @@ public class MainFragment extends Fragment {
         {
             tram.setVisibility(View.VISIBLE);
             bus.setVisibility(View.INVISIBLE);
+            line.setText("TRAM NUMBER");
         }
         else
         {
             tram.setVisibility(View.INVISIBLE);
             bus.setVisibility(View.VISIBLE);
+            line.setText("BUS NUMBER");
         }
 
         if (isThereSavedStops()) {

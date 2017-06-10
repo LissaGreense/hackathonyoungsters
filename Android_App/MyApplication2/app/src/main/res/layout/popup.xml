@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
     android:background="#feda5f">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
         <ImageButton
             android:id="@+id/tram"
@@ -23,21 +16,9 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/select_tram_icon"
             android:contentDescription="@string/seltram"
+            android:layout_marginBottom="10dp"
             />
 
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_above="@+id/imageButton3"
-            android:gravity="center"
-            android:layout_marginBottom="33dp"
-            android:layout_weight="0.72"
-            android:text="Dolor sit amet"
-            android:textColor="@color/select"
-            android:textSize="32sp" />
 
         <ImageButton
             android:id="@+id/bus"
@@ -49,10 +30,9 @@
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/select_bus_icon"
             android:contentDescription="@string/selbus"
+           android:layout_marginTop="10dp"
 
             />
-    </LinearLayout>
 
-
-</RelativeLayout>
+</LinearLayout>
 

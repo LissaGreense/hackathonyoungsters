@@ -25,7 +25,7 @@
         app:srcCompat="@drawable/lineicon"
         android:contentDescription="@null"
         android:id="@+id/imageView2"
-        android:layout_below="@+id/textView2"
+        android:layout_below="@+id/TO"
         android:layout_alignParentStart="true" />
 
     <ImageView
@@ -45,37 +45,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="32sp"
-        android:text="Lorem Ipsum"
+        android:text="Destination"
+        android:textAllCaps="true"
         android:textColor="@color/titlecolor"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
-
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/TO"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="TO: "
+        android:textAllCaps="true"
         android:textColor="@color/titlecolor"
         android:textSize="28sp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Lorem Ipsum"
-        android:textColor="@color/titlecolor"
-        android:textSize="32sp" />
 
     <ImageView
         android:id="@+id/tram_image"
@@ -102,8 +88,9 @@
         android:id="@+id/vehicle_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dolor sit amet"
+        android:text="Number"
         android:textSize="32sp"
+        android:textAllCaps="true"
         android:layout_marginBottom="61dp"
         android:layout_above="@+id/imageButton"
         android:textColor="@color/titlecolor"
