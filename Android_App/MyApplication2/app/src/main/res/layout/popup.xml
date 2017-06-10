@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/tram"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -30,16 +30,15 @@
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:layout_above="@+id/imageButton3"
-            android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginBottom="33dp"
             android:layout_weight="0.72"
-            android:gravity="center"
             android:text="Dolor sit amet"
             android:textColor="@color/select"
             android:textSize="32sp" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/bus"
             android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
