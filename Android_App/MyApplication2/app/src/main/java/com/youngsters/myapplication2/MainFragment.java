@@ -185,7 +185,7 @@ public class MainFragment extends Fragment {
 
 
                 for(int i =0;i < closeststops.size();i++)
-                {final DownloadStopDelays stopDelays = new DownloadStopDelays(nearestStop);
+                {final DownloadStopDelays stopDelays = new DownloadStopDelays(closeststops.get(i));
                     stopDelays.execute();
 
                     while (stopDelays.getStatus() != AsyncTask.Status.FINISHED) {
