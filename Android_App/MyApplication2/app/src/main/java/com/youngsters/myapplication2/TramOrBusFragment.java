@@ -32,7 +32,7 @@ public class TramOrBusFragment extends Fragment {
             public void onClick(View v) {
                 isBus = false;
                 MainActivity.isBus = false;
-                getFragmentManager().popBackStack();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new MainFragment()).addToBackStack("mainFrag").commit();
             }
         });
 
@@ -41,7 +41,7 @@ public class TramOrBusFragment extends Fragment {
             public void onClick(View v) {
                 isBus = true;
                 MainActivity.isBus = true;
-                getFragmentManager().popBackStack();
+                getFragmentManager().beginTransaction().replace(R.id.content_main, new MainFragment()).addToBackStack("mainFrag").commit();
             }
         });
 
