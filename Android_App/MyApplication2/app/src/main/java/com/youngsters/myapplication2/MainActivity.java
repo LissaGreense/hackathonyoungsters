@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         stopsList = null;
         stopDelaysList = null;
 
-        complete = (TextView) findViewById(R.id.complete);
-
         longitude = -1;
         latitude = -1;
 
@@ -187,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*if (isThereSavedStops()) {
+        if (isThereSavedStops()) {
             stopsList = loadStops();
             complete.setText("loaded");
             threadStopDelays.start();
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             complete.setText("downloading Stops");
             threadDownloadStops.start();
         }
-        */
+
         threadDownloadStops.start();
     }
 
