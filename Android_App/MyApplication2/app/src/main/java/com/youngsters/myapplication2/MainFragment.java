@@ -21,20 +21,20 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.kadzetan, container, false);
 
 
-        TextView stopname = (TextView) view.findViewById(R.id.textView2);
+        TextView stopname = (TextView) view.findViewById(R.id.stop_name);
         stopname.setText("Step One: blast egg");
 
-        TextView line = (TextView) view.findViewById(R.id.textView3);
+        TextView line = (TextView) view.findViewById(R.id.vehicle_number);
         stopname.setText("Step One: blast egg");
 
-        ImageView bus = (ImageView) view.findViewById(R.id.imageView4); //tram
-        ImageView tram = (ImageView) view.findViewById(R.id.imageView3); //tram
+        ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //tram
+        ImageView tram = (ImageView) view.findViewById(R.id.tram_image); //tram
 
 
-        if (istram == true)
+        if (istram)
         {
             tram.setVisibility(View.VISIBLE);
             bus.setVisibility(View.INVISIBLE);
