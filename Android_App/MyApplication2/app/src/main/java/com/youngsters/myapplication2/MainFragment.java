@@ -210,12 +210,12 @@ public class MainFragment extends Fragment {
                                     String time = vehicle.getString("estimatedTime");
                                     String ID = vehicle.getString("routeId");
                                     String headsign = vehicle.getString("headsign");
-                                    stopname.setText(ID);
-                                    line.setText(headsign);
-                                    if((headsign.length() > 2 && MainActivity.isBus )|| (headsign.length() < 3 && !MainActivity.isBus )) {
+
+                                    if((ID.length() > 2 && MainActivity.isBus )|| (ID.length() < 3 && !MainActivity.isBus )) {
                                         char temp = time.charAt(0);
                                         if (temp == '0') temp = ' ';
-
+                                        stopname.setText(ID);
+                                        line.setText(headsign);
                                         toSpeak = "Attention Please,in " + temp + time.charAt(1) + " minutes, buss number " + ID + " to " + headsign + " will arrive";
                                         t1 = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
                                             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
