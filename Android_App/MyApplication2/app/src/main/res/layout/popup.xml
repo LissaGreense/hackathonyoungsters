@@ -21,7 +21,9 @@
             android:background="@android:color/transparent"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/select_tram_icon" />
+            app:srcCompat="@drawable/select_tram_icon"
+            android:contentDescription="@string/seltram"
+            />
 
 
         <TextView
@@ -45,7 +47,10 @@
             android:layout_weight="3"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/select_bus_icon" />
+            app:srcCompat="@drawable/select_bus_icon"
+            android:contentDescription="@string/selbus"
+
+            />
     </LinearLayout>
 
 
