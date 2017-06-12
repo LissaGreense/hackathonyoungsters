@@ -18,14 +18,21 @@ import java.util.Date;
 
 public class DownloadStops extends AsyncTask<Void, Void, Void> {
 
-    private String json = "";
+    private String json;
     private JSONArray stopsArray;
+    private String date;
 
+    public DownloadStops(){
+        json = "";
+        stopsArray = new JSONArray();
+        date = "1900-01-01";
+    }
 
     @Override
     protected Void doInBackground(Void... params) {
-        String address = "http://91.244.248.19/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/cd4c08b5-460e-40db-b920-ab9fc93c1a92/download/stops.json";
+        json = "";
 
+        String address = "http://91.244.248.19/dataset/c24aa637-3619-4dc2-a171-a23eec8f2172/resource/cd4c08b5-460e-40db-b920-ab9fc93c1a92/download/stops.json";
         HttpURLConnection connection;
         BufferedReader reader;
 
@@ -34,9 +41,7 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
-
             InputStream stream = connection.getInputStream();
-
             reader = new BufferedReader(new InputStreamReader(stream));
 
             String line;
@@ -45,8 +50,6 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
             }
 
             connection.disconnect();
-
-
         }catch( Exception e) {
             e.printStackTrace();
         }
@@ -58,12 +61,12 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         JSONObject jsonObject;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
         try {
             jsonObject = new JSONObject(json);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            Log.w(dateFormat.format(date)+"","wss");
-            stopsArray = jsonObject.getJSONObject(dateFormat.format(date)).getJSONArray("stops");
+            stopsArray = jsonObject.getJSONObject(dateFormat.format(currentDate)).getJSONArray("stops");
+            date = dateFormat.format(currentDate);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -71,5 +74,9 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
 
     public JSONArray getStopsArray() {
         return stopsArray;
+    }
+
+    public String getDataDate(){
+        return date;
     }
 }
