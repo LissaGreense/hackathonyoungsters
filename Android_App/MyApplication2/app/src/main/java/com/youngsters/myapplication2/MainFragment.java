@@ -214,14 +214,16 @@ public class MainFragment extends Fragment {
 
                                     //bus
                                     if (ID.length() > 2 && MainActivity.isBus) {
-                                        String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        String text = "Uwaga, za " + minutes + " minuty, tramwaj numerze " + ID + " do " + headsign + " odjedzie z przystanku";
+                                        //String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         speech.speak(text);
                                         stopname.setText(ID);
                                         line.setText(headsign);
                                     }
                                     //tram
                                     else if (ID.length() < 3 && !MainActivity.isBus) {
-                                        String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        String text = "Uwaga, za " + minutes + " minuty, autobus o numerze " + ID + " do " + headsign + " odjedzie z przystanku";
+                                        //String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         speech.speak(text);
                                         stopname.setText(ID);
                                         line.setText(headsign);
@@ -237,8 +239,8 @@ public class MainFragment extends Fragment {
                         //no trams
                     }
                 }
-                if (closeststops.size() == 0)
-                    speech.speak("There are no stops in radius of" + MAX_RADIUS + " meters");
+                if (closeststops.size() == 0);
+                    //speech.speak("There are no stops in radius of" + MAX_RADIUS + " meters");
             }
         });
     }
