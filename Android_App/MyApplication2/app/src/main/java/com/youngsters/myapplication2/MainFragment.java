@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,7 +56,7 @@ public class MainFragment extends Fragment {
 
     Typeface font;
 
-    final int MAX_RADIUS = 160;
+    final int MAX_RADIUS = 250;
 
     int nearestStop;
 
@@ -107,13 +108,15 @@ public class MainFragment extends Fragment {
             line.setText("BUS NUMBER");
         }
 
-        if (isThereSavedStops()) {
+        /*if (isThereSavedStops()) {
             stopsList = loadStops();
             threadStopDelays.start();
 
         } else {
             threadDownloadStops.start();
-        }
+        }*/
+
+        threadDownloadStops.start();
         
         return view;
     }
@@ -133,12 +136,15 @@ public class MainFragment extends Fragment {
                     }
                 }
                 //download stops finished
+
                 stopsList = stops.getStopsArray();
+
                 if(getActivity() == null) return;
                 else {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             saveStops();
+                            Toast.makeText(getContext(), "Downloaded stops", Toast.LENGTH_SHORT).show();
                             threadStopDelays.start();
                         }
                     });
@@ -154,6 +160,7 @@ public class MainFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             configureGPS();
+                            Toast.makeText(getContext(), "Getting gps position", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -175,12 +182,13 @@ public class MainFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             nearestStop = -2;
+                            Toast.makeText(getContext(), "Searching for nearest stop", Toast.LENGTH_SHORT).show();
                             try {
                                 nearestStop = getNearestStop(latitude, longitude, stopsList);
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                wait = false;
                             }
+                            wait = false;
                         }
                     });
                     while (wait) {
