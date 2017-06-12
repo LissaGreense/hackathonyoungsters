@@ -37,11 +37,12 @@ import static java.lang.Thread.sleep;
 public class MainFragment extends Fragment {
 
     View view;
-    boolean istram;
 
     Thread threadDownloadStops, threadStopDelays;
 
     boolean wait;
+
+    Speech speech;
 
     JSONArray stopsList;
     JSONArray stopDelaysList;
@@ -50,12 +51,7 @@ public class MainFragment extends Fragment {
 
     Typeface font;
 
-    TextToSpeech speech = null;
-
     final int MAX_RADIUS = 250;
-    final String NO_STOPS = "There are no stops in radius of" + MAX_RADIUS + " meters";
-    final String NO_BUSES = "There are no buses arriving from stops in radius of" + MAX_RADIUS + " meters";
-    final String NO_TRAMS = "There are no trams arriving from stops in radius of" + MAX_RADIUS + " meters";
 
     int nearestStop;
 
@@ -69,6 +65,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.kadzetan, container, false);
 
+        speech = new Speech(getContext());
+
         stopsList = null;
         stopDelaysList = null;
 
@@ -77,7 +75,6 @@ public class MainFragment extends Fragment {
         longitude = -1;
         latitude = -1;
 
-        istram = false;
 
         stopname = (TextView) view.findViewById(R.id.stop_name);
         stopname.setTypeface(font);
@@ -217,13 +214,15 @@ public class MainFragment extends Fragment {
 
                                     //bus
                                     if (ID.length() > 2 && MainActivity.isBus) {
-                                        Speak(MainActivity.isBus, minutes, ID, headsign);
+                                        String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        speech.speak(text);
                                         stopname.setText(ID);
                                         line.setText(headsign);
                                     }
                                     //tram
                                     else if (ID.length() < 3 && !MainActivity.isBus) {
-                                        Speak(MainActivity.isBus, minutes, ID, headsign);
+                                        String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
+                                        speech.speak(text);
                                         stopname.setText(ID);
                                         line.setText(headsign);
                                     }
@@ -239,39 +238,7 @@ public class MainFragment extends Fragment {
                     }
                 }
                 if (closeststops.size() == 0)
-                    Speak(NO_STOPS);
-            }
-        });
-    }
-
-
-    private void Speak(final String text) {
-        speech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    speech.setLanguage(Locale.UK);
-                    speech.speak(text, 1, null, null);
-                }
-            }
-        });
-    }
-
-    private void Speak(boolean isBus, String minutes, String ID, String headsign) {
-        final String text;
-        if (isBus)
-            text = "Attention Please, in " + minutes + " minutes, bus number " + ID + " to " + headsign + " will arrive";
-        else
-            text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
-        speech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    speech.setLanguage(Locale.UK);
-                    speech.speak(text, 1, null, null);
-                }
+                    speech.speak("There are no stops in radius of" + MAX_RADIUS + " meters");
             }
         });
     }
