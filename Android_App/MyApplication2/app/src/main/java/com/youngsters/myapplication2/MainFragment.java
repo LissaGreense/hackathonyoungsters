@@ -214,7 +214,7 @@ public class MainFragment extends Fragment {
 
                                     //bus
                                     if (ID.length() > 2 && MainActivity.isBus) {
-                                        String text = "Uwaga, za " + minutes + " minuty, tramwaj numerze " + ID + " do " + headsign + " odjedzie z przystanku";
+                                        String text = "Uwaga, za " + minutes + " minuty, autobus numerze " + ID + " do " + headsign + " odjedzie z przystanku";
                                         //String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         speech.speak(text);
                                         stopname.setText(ID);
@@ -222,7 +222,7 @@ public class MainFragment extends Fragment {
                                     }
                                     //tram
                                     else if (ID.length() < 3 && !MainActivity.isBus) {
-                                        String text = "Uwaga, za " + minutes + " minuty, autobus o numerze " + ID + " do " + headsign + " odjedzie z przystanku";
+                                        String text = "Uwaga, za " + minutes + " minuty, tramwaj o numerze " + ID + " do " + headsign + " odjedzie z przystanku";
                                         //String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         speech.speak(text);
                                         stopname.setText(ID);
@@ -240,6 +240,7 @@ public class MainFragment extends Fragment {
                     }
                 }
                 if (closeststops.size() == 0);
+                    //speech.speak("W promieniu" + MAX_RADIUS + " meterów, nie ma żadnego przystanku");
                     //speech.speak("There are no stops in radius of" + MAX_RADIUS + " meters");
             }
         });
