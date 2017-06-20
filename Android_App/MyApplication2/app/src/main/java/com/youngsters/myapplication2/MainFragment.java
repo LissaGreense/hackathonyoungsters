@@ -9,11 +9,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
 import static java.lang.Thread.sleep;
@@ -240,7 +236,7 @@ public class MainFragment extends Fragment {
                     }
                 }
                 if (closeststops.size() == 0);
-                    //speech.speak("W promieniu" + MAX_RADIUS + " meterów, nie ma żadnego przystanku");
+                    speech.speak("W promieniu" + MAX_RADIUS + " meterów, nie ma żadnego przystanku");
                     //speech.speak("There are no stops in radius of" + MAX_RADIUS + " meters");
             }
         });
