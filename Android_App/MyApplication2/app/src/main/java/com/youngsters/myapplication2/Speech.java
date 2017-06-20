@@ -5,13 +5,9 @@ import android.os.Build;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.RequiresApi;
 
-import org.w3c.dom.Text;
-
 import java.util.Locale;
 
-/**
- * Created by Yoshimoo12 on 2017-06-12.
- */
+
 
 public class Speech {
 

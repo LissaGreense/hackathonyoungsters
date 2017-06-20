@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-/**
- * Created by Michał 1984 on 2017-06-10.
- */
+
 
 public class TramOrBusFragment extends Fragment {
 
