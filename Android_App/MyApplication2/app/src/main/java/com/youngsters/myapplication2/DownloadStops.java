@@ -1,7 +1,6 @@
 package com.youngsters.myapplication2;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,12 +19,12 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
 
     private String json;
     private JSONArray stopsArray;
-    private String date;
+    private String todaysDate;
 
     public DownloadStops(){
         json = "";
         stopsArray = new JSONArray();
-        date = "1900-01-01";
+        todaysDate = "1900-01-01";
     }
 
     @Override
@@ -66,7 +65,7 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
         try {
             jsonObject = new JSONObject(json);
             stopsArray = jsonObject.getJSONObject(dateFormat.format(currentDate)).getJSONArray("stops");
-            date = dateFormat.format(currentDate);
+            todaysDate = dateFormat.format(currentDate);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -77,6 +76,6 @@ public class DownloadStops extends AsyncTask<Void, Void, Void> {
     }
 
     public String getDataDate(){
-        return date;
+        return todaysDate;
     }
 }
