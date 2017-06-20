@@ -1,7 +1,6 @@
 package com.youngsters.myapplication2;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,14 +12,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Michał 1984 on 2017-06-09.
- */
 
 public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
-    String json = "";
-    private JSONArray delays;
+    String downloadedJsonData = "";
+    private JSONArray closestStopDelays;
     private int id;
 
     DownloadStopDelays(int id){
@@ -29,14 +25,14 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        String stringID = Integer.toString(id);
-        String address = "http://87.98.237.99:88/delays?stopId=" +stringID;
+        String temporaryStringID = Integer.toString(id);
+        String stopDownloadUrl = "http://87.98.237.99:88/delays?stopId=" +temporaryStringID;
 
         HttpURLConnection connection;
         BufferedReader reader;
 
         try {
-            URL url = new URL(address);
+            URL url = new URL(stopDownloadUrl);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -45,9 +41,9 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
 
             reader = new BufferedReader(new InputStreamReader(stream));
 
-            String line;
-            while ((line =reader.readLine()) != null) {
-                json += line;
+            String tempDownloadedLine;
+            while ((tempDownloadedLine =reader.readLine()) != null) {
+                downloadedJsonData += tempDownloadedLine;
             }
 
             connection.disconnect();
@@ -64,16 +60,16 @@ public class DownloadStopDelays extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        JSONObject jsonObject;
+        JSONObject stopDelaysResult;
         try {
-            jsonObject = new JSONObject(json);
-            delays = jsonObject.getJSONArray("delay");
+            stopDelaysResult = new JSONObject(downloadedJsonData);
+            closestStopDelays = stopDelaysResult.getJSONArray("delay");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     public JSONArray getDelays() {
-        return delays;
+        return closestStopDelays;
     }
 }
