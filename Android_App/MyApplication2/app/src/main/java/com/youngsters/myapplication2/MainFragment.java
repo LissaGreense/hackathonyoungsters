@@ -65,15 +65,15 @@ public class MainFragment extends Fragment {
 
         configureThreads();
 
-        /*if (isThereSavedStops()) {
+        if (isThereSavedStops()) {
             stopsList = loadStops();
             threadStopDelays.start();
 
         } else {
             threadDownloadStops.start();
-        }*/
+        }
 
-        threadDownloadStops.start();
+        //threadDownloadStops.start();
 
         return view;
     }
@@ -303,8 +303,7 @@ public class MainFragment extends Fragment {
     private boolean isThereSavedStops() {
         SharedPreferences mPrefs = getActivity().getPreferences(MODE_PRIVATE);
         String json = mPrefs.getString("StopsList", "");
-        if (json.equals("")) return false;
-        else return true;
+        return !json.equals("");
     }
 
     private JSONArray loadStops() {
