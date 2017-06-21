@@ -13,12 +13,24 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +45,8 @@ import static java.lang.Thread.sleep;
 public class MainFragment extends Fragment {
 
     View view;
+
+    GoogleGPS googleGPS;
 
     Thread threadDownloadStops, threadStopDelays;
 
@@ -63,6 +77,8 @@ public class MainFragment extends Fragment {
 
         initVariables();
 
+        googleGPS = new GoogleGPS(getActivity());
+
         configureThreads();
 
         if (isThereSavedStops()) {
@@ -77,6 +93,7 @@ public class MainFragment extends Fragment {
 
         return view;
     }
+
 
     private void initVariables(){
         speech = new Speech(getContext());
@@ -135,7 +152,7 @@ public class MainFragment extends Fragment {
             public void run() {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        configureGPS();
+                        googleGPS.startLocationUpdates();
                         Toast.makeText(getContext(), "Getting gps position", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -258,7 +275,7 @@ public class MainFragment extends Fragment {
         return closestStop;
     }
 
-    private void configureGPS() {
+    /*private void configureGPS() {
         LocationManager locationManager = (LocationManager)
                 getActivity().getSystemService(Context.LOCATION_SERVICE);
 
@@ -290,7 +307,7 @@ public class MainFragment extends Fragment {
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-    }
+    }*/
 
     private void saveStops() {
         SharedPreferences mPrefs = getActivity().getPreferences(MODE_PRIVATE);
