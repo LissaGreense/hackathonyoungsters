@@ -32,6 +32,7 @@ public class GoogleGPS {
     private Context context;
 
     GoogleGPS(Context context){
+        this.context = context;
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(5000);
@@ -52,13 +53,12 @@ public class GoogleGPS {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
+                    MainFragment.latitude = location.getLatitude();
+                    MainFragment.longitude = location.getLongitude();
                     Log.w("Latitude", location.getLatitude()+"");
                     Log.w("Longitude", location.getLongitude()+"");
                 }
-
             }
-
-            ;
         };
     }
 
