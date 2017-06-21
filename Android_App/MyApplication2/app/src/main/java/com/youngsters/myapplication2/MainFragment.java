@@ -43,12 +43,10 @@ public class MainFragment extends Fragment {
 
     Typeface font;
 
-    final int MAX_RADIUS = 250;
+    final int MAX_RADIUS = 400;
 
-    int nearestStop;
-
-    double longitude;
-    double latitude;
+    static double longitude;
+    static double latitude;
 
     List<Integer> closeststops;
 
@@ -242,7 +240,6 @@ public class MainFragment extends Fragment {
     }
 
     private void getNearestStops(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
-        double maxWayToStop = MAX_RADIUS;
         Location device = new Location("device");
         device.setLatitude(latitiudeDevice);
         device.setLongitude(longtitiudeDevice);
@@ -255,7 +252,7 @@ public class MainFragment extends Fragment {
             stop_location.setLatitude(latitiudeStop);
             stop_location.setLongitude(longitiudeStop);
             double distanceToThisStop = device.distanceTo(stop_location);
-            if (distanceToThisStop < maxWayToStop) {
+            if (distanceToThisStop < MAX_RADIUS) {
                 closeststops.add(id);
             }
         }
