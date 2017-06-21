@@ -14,8 +14,6 @@ with urllib.request.urlopen("http://91.244.248.19/dataset/c24aa637-3619-4dc2-a17
 		stopID = stop['stopId']
 		tempLat = int((stop['stopLat'] * 100000 )//10)
 		tempLon = int((stop['stopLon'] * 100000)//10)
-		for x in range (tempLat-10,tempLat + 10):
-			for y in range (tempLon - 10,tempLon +10):
-				array[x][y].append(stopID)
+		array[tempLat][tempLon].append(stopID)
 with open('data.json', 'w') as outfile:
     json.dump(array, outfile)
