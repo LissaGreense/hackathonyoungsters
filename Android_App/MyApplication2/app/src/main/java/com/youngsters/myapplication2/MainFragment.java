@@ -68,7 +68,7 @@ public class MainFragment extends Fragment {
     double longitude;
     double latitude;
 
-    List<Integer> closeststops = new ArrayList<Integer>();
+    List<Integer> closeststops;
 
     @Nullable
     @Override
@@ -94,6 +94,13 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        if (mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
+    }*/
 
     private void initVariables(){
         speech = new Speech(getContext());
@@ -108,6 +115,7 @@ public class MainFragment extends Fragment {
         line.setTypeface(font);
         to = (TextView) view.findViewById(R.id.TO);
         to.setTypeface(font);
+        closeststops = new ArrayList<>();
 
         ImageView busTramImage = (ImageView) view.findViewById(R.id.bus_tram_image);
         if (!MainActivity.isBus) {
@@ -171,10 +179,9 @@ public class MainFragment extends Fragment {
                 wait = true;
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
-                        nearestStop = -2;
                         Toast.makeText(getContext(), "Searching for nearest stop", Toast.LENGTH_SHORT).show();
                         try {
-                            nearestStop = getNearestStop(latitude, longitude, stopsList);
+                            getNearestStops(latitude, longitude, stopsList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -252,9 +259,8 @@ public class MainFragment extends Fragment {
         });
     }
 
-    public int getNearestStop(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
+    private void getNearestStops(double latitiudeDevice, double longtitiudeDevice, JSONArray stopsList) throws JSONException {
         double maxWayToStop = MAX_RADIUS;
-        int closestStop = -1;
         Location device = new Location("device");
         device.setLatitude(latitiudeDevice);
         device.setLongitude(longtitiudeDevice);
@@ -268,46 +274,10 @@ public class MainFragment extends Fragment {
             stop_location.setLongitude(longitiudeStop);
             double distanceToThisStop = device.distanceTo(stop_location);
             if (distanceToThisStop < maxWayToStop) {
-                closestStop = id;
                 closeststops.add(id);
             }
         }
-        return closestStop;
     }
-
-    /*private void configureGPS() {
-        LocationManager locationManager = (LocationManager)
-                getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-    }*/
 
     private void saveStops() {
         SharedPreferences mPrefs = getActivity().getPreferences(MODE_PRIVATE);
