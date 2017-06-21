@@ -220,7 +220,7 @@ public class MainFragment extends Fragment {
 
                                     //bus
                                     if (ID.length() > 2 && MainActivity.isBus) {
-                                        String text = "Uwaga, za " + minutes + " minuty, autobus numerze " + ID + " do " + headsign + " odjedzie z przystanku";
+                                        String text = "Uwaga, za " + minutes + " minuty, autobus o numerze " + ID + " do " + headsign + " odjedzie z przystanku";
                                         //String text = "Attention Please, in " + minutes + " minutes, tram number " + ID + " to " + headsign + " will arrive";
                                         speech.speak(text);
                                         stopname.setText(ID);
