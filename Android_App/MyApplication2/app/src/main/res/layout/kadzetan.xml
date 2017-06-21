@@ -1,8 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/TO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="TO: "
+        android:textAllCaps="true"
+        android:textColor="@color/titlecolor"
+        android:textSize="28sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/lineicon"
+        android:contentDescription="@null"
+        android:id="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/destination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="32sp"
+        android:text="Destination"
+        android:textAllCaps="true"
+        android:textColor="@color/titlecolor"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        app:srcCompat="@drawable/lineicon"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@null"
+        />
+
+    <ImageView
+        android:id="@+id/bus_tram_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="46dp"
+        android:contentDescription="@string/busTram"
+        android:scaleType="fitCenter"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/vehicle_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Number"
+        android:textSize="32sp"
+        android:textAllCaps="true"
+        android:layout_marginBottom="61dp"
+        android:textColor="@color/titlecolor"
+        android:layout_gravity="center_horizontal"/>
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -14,87 +74,6 @@
         app:srcCompat="@drawable/settingicon"
         android:contentDescription="@string/action_settings"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginTop="10dp"
-        app:srcCompat="@drawable/lineicon"
-        android:contentDescription="@null"
-        android:id="@+id/imageView2"
-        android:layout_below="@+id/TO"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:srcCompat="@drawable/lineicon"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/stop_name"
-        android:layout_alignParentStart="true"
-        android:contentDescription="@null"
-        />
-
-    <TextView
-        android:id="@+id/stop_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="32sp"
-        android:text="Destination"
-        android:textAllCaps="true"
-        android:textColor="@color/titlecolor"
-        android:layout_below="@+id/imageView2"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/TO"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="TO: "
-        android:textAllCaps="true"
-        android:textColor="@color/titlecolor"
-        android:textSize="28sp" />
-
-    <ImageView
-        android:id="@+id/tram_image"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:contentDescription="@string/tram"
-        app:srcCompat="@drawable/tram_icon"
-        android:visibility="invisible"
-        android:layout_alignTop="@+id/bus_image"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:id="@+id/bus_image"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:srcCompat="@drawable/bus_icon"
-        android:contentDescription="@string/bus"
-        android:visibility="invisible"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="46dp" />
-
-    <TextView
-        android:id="@+id/vehicle_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Number"
-        android:textSize="32sp"
-        android:textAllCaps="true"
-        android:layout_marginBottom="61dp"
-        android:layout_above="@+id/imageButton"
-        android:textColor="@color/titlecolor"
-        android:layout_centerHorizontal="true" />
-
-
-</RelativeLayout>
+</LinearLayout>
