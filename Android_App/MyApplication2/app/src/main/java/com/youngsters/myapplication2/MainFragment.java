@@ -61,52 +61,45 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.kadzetan, container, false);
 
-        speech = new Speech(getContext());
-
-        stopsList = null;
-        stopDelaysList = null;
-
-        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/jaapokki-regular.ttf");
-
-        longitude = -1;
-        latitude = -1;
-
-
-        stopname = (TextView) view.findViewById(R.id.stop_name);
-        stopname.setTypeface(font);
-
-        line = (TextView) view.findViewById(R.id.vehicle_number);
-        line.setTypeface(font);
-
-        to = (TextView) view.findViewById(R.id.TO);
-        to.setTypeface(font);
-
-        ImageView bus = (ImageView) view.findViewById(R.id.bus_image); //bus
-        ImageView tram = (ImageView) view.findViewById(R.id.tram_image); //tram
+        initVariables();
 
         configureThreads();
 
-        if (!MainActivity.isBus) {
-            tram.setVisibility(View.VISIBLE);
-            bus.setVisibility(View.INVISIBLE);
-            line.setText("TRAM NUMBER");
-        } else {
-            tram.setVisibility(View.INVISIBLE);
-            bus.setVisibility(View.VISIBLE);
-            line.setText("BUS NUMBER");
-        }
-
-        /*if (isThereSavedStops()) {
+        if (isThereSavedStops()) {
             stopsList = loadStops();
             threadStopDelays.start();
 
         } else {
             threadDownloadStops.start();
-        }*/
+        }
 
-        threadDownloadStops.start();
+        //threadDownloadStops.start();
 
         return view;
+    }
+
+    private void initVariables(){
+        speech = new Speech(getContext());
+        stopsList = null;
+        stopDelaysList = null;
+        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/jaapokki-regular.ttf");
+        longitude = -1;
+        latitude = -1;
+        stopname = (TextView) view.findViewById(R.id.destination);
+        stopname.setTypeface(font);
+        line = (TextView) view.findViewById(R.id.vehicle_number);
+        line.setTypeface(font);
+        to = (TextView) view.findViewById(R.id.TO);
+        to.setTypeface(font);
+
+        ImageView busTramImage = (ImageView) view.findViewById(R.id.bus_tram_image);
+        if (!MainActivity.isBus) {
+            busTramImage.setImageResource(R.drawable.tram_icon);
+            line.setText("TRAM NUMBER");
+        } else {
+            busTramImage.setImageResource(R.drawable.bus_icon);
+            line.setText("BUS NUMBER");
+        }
     }
 
     private void configureThreads() {
@@ -310,8 +303,7 @@ public class MainFragment extends Fragment {
     private boolean isThereSavedStops() {
         SharedPreferences mPrefs = getActivity().getPreferences(MODE_PRIVATE);
         String json = mPrefs.getString("StopsList", "");
-        if (json.equals("")) return false;
-        else return true;
+        return !json.equals("");
     }
 
     private JSONArray loadStops() {
